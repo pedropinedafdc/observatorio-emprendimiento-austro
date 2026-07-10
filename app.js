@@ -2,7 +2,8 @@ const universities = [
   {
     shortName: "UPS",
     name: "Universidad Politécnica Salesiana",
-    logo: "assets/logos/ups.svg"
+    logo: "assets/logos/ups.svg",
+    url: "https://www.investigacion.ups.edu.ec/innovacion-emprendimiento/"
   },
   {
     shortName: "UCuenca",
@@ -90,17 +91,19 @@ const resources = [
 
 const renderUniversities = () => {
   document.getElementById("universities-grid").innerHTML = universities
-    .map(
-      (item) => `
-        <article class="university-card reveal">
+    .map((item) => {
+      const tag = item.url ? "a" : "article";
+      const href = item.url ? ` href="${item.url}" target="_blank" rel="noopener noreferrer"` : "";
+      return `
+        <${tag} class="university-card reveal"${href}>
           <div class="university-logo">
             <img src="${item.logo}" alt="Logo ${item.name}" loading="lazy" />
           </div>
           <span>${item.shortName}</span>
           <strong>${item.name}</strong>
-        </article>
-      `
-    )
+        </${tag}>
+      `;
+    })
     .join("");
 };
 
