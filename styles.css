@@ -288,8 +288,8 @@ h3 {
 }
 
 .section-observe {
-  opacity: 0;
-  transform: translateY(18px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 650ms ease, transform 650ms ease;
 }
 
