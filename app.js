@@ -189,25 +189,35 @@ const renderEvents = () => {
 const renderEventDetail = (eventId = events[0].id) => {
   const event = events.find((item) => item.id === eventId) || events[0];
   document.getElementById("event-detail").innerHTML = `
-    <article class="event-detail-card">
+    <article class="event-detail-card" tabindex="-1">
+      <a class="back-link" href="#eventos">← Volver a eventos</a>
       <p class="event-label">Evento</p>
       <h2 id="event-detail-title">${event.title}</h2>
       <div class="event-poster">
         <img src="${event.image}" alt="${event.title}" loading="lazy" />
       </div>
+      <div class="share-row" aria-label="Compartir evento">
+        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(event.title)}" target="_blank" rel="noopener noreferrer">Twittear</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}" target="_blank" rel="noopener noreferrer">Compartir</a>
+      </div>
       <div class="event-meta-strip" aria-label="Datos del evento">
         <div><span>EVENTO</span><strong>${event.mode}</strong></div>
         <div><span>TIPO</span><strong>${event.type}</strong></div>
-        <div><span>CIUDAD</span><strong>${event.city}</strong></div>
-        <div><span>FECHA</span><strong>${event.fullDate}</strong></div>
+        <div><strong>${event.city}</strong></div>
+        <div><strong>${event.fullDate}</strong></div>
       </div>
       <div class="event-content">
         <div>
           <p>${event.detail}</p>
-          <h3>Agenda</h3>
+          <p>Lee a continuación:</p>
+          <h3>Agenda del evento</h3>
           <ul>
             ${event.agenda.map((item) => `<li>${item}</li>`).join("")}
           </ul>
+          <p><strong>Fecha:</strong> ${event.fullDate}</p>
+          <p><strong>Lugar:</strong> ${event.place}</p>
+          <p><strong>Costo:</strong> ${event.cost}</p>
+          <p><strong>Para más información:</strong> ${event.contact}</p>
         </div>
         <aside class="event-side">
           <span>Universidad</span>
@@ -279,9 +289,23 @@ const bindNavigation = () => {
 
 const bindEventLinks = () => {
   document.querySelectorAll("[data-event-link]").forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
       renderEventDetail(link.dataset.eventLink);
+      const detailSection = document.getElementById("evento-detalle");
+      detailSection.hidden = false;
+      detailSection.classList.add("is-active", "is-visible");
+      detailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      detailSection.querySelector(".event-detail-card").focus({ preventScroll: true });
+      history.replaceState(null, "", `#evento-${link.dataset.eventLink}`);
     });
+  });
+
+  document.getElementById("event-detail").addEventListener("click", (event) => {
+    const backLink = event.target.closest(".back-link");
+    if (!backLink) return;
+    document.getElementById("evento-detalle").hidden = true;
+    history.replaceState(null, "", "#eventos");
   });
 };
 
@@ -316,7 +340,6 @@ const observeSections = () => {
 renderUniversities();
 renderKpis();
 renderEvents();
-renderEventDetail();
 renderNews();
 renderResources();
 bindNavigation();
