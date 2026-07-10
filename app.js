@@ -347,10 +347,15 @@ const bindNewsletter = () => {
   const defaultButtonText = submitButton.textContent;
   const supabaseUrl = window.__SUPABASE_CONFIG__?.url;
   const supabaseAnonKey = window.__SUPABASE_CONFIG__?.anonKey;
-  const supabaseClient =
-    window.supabase && supabaseUrl && supabaseAnonKey
-      ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
-      : null;
+  let supabaseClient = null;
+
+  if (window.supabase && supabaseUrl && supabaseAnonKey) {
+    try {
+      supabaseClient = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+    } catch (error) {
+      console.error("Newsletter registration error:", error);
+    }
+  }
 
   const setSubmitting = (isSubmitting) => {
     submitButton.disabled = isSubmitting;
