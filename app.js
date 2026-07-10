@@ -338,13 +338,72 @@ const bindEventLinks = () => {
 
 const bindNewsletter = () => {
   const form = document.getElementById("newsletter-form");
-  const status = document.getElementById("form-status");
+  const nameInput = document.getElementById("newsletter-name");
+  const emailInput = document.getElementById("newsletter-email");
+  const institutionInput = document.getElementById("newsletter-institution");
+  const interestInput = document.getElementById("newsletter-interest");
+  const submitButton = document.getElementById("newsletter-submit");
+  const status = document.getElementById("newsletter-message");
+  const defaultButtonText = submitButton.textContent;
+  const supabaseUrl = window.__SUPABASE_CONFIG__?.url;
+  const supabaseAnonKey = window.__SUPABASE_CONFIG__?.anonKey;
+  const supabaseClient =
+    window.supabase && supabaseUrl && supabaseAnonKey
+      ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
+      : null;
 
-  form.addEventListener("submit", (event) => {
+  const setSubmitting = (isSubmitting) => {
+    submitButton.disabled = isSubmitting;
+    submitButton.textContent = isSubmitting ? "Registrando..." : defaultButtonText;
+  };
+
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(form));
-    status.textContent = `${data.name || "Gracias"}, tu registro está listo para conectarse a Supabase.`;
+    const fullName = nameInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const institution = institutionInput.value.trim();
+    const mainInterest = interestInput.value;
+
+    if (!fullName || !isValidEmail(email)) {
+      status.textContent = "Completa tu nombre y un correo válido.";
+      return;
+    }
+
+    if (!supabaseClient) {
+      const error = new Error("Supabase configuration is missing.");
+      console.error("Newsletter registration error:", error);
+      status.textContent = "No fue posible completar el registro. Inténtalo nuevamente.";
+      return;
+    }
+
+    setSubmitting(true);
+    status.textContent = "Registrando...";
+
+    const { error } = await supabaseClient.from("newsletter_subscribers").insert({
+      full_name: fullName,
+      email,
+      institution: institution || null,
+      main_interest: mainInterest || null,
+      consent: true,
+      status: "active"
+    });
+
+    if (error) {
+      console.error("Newsletter registration error:", error);
+      status.textContent =
+        error.code === "23505" || error.message?.toLowerCase().includes("duplicate")
+          ? "Este correo ya está registrado en nuestro newsletter."
+          : "No fue posible completar el registro. Inténtalo nuevamente.";
+      setSubmitting(false);
+      return;
+    }
+
     form.reset();
+    status.textContent =
+      "Gracias por registrarte. Recibirás eventos, convocatorias y noticias del ecosistema emprendedor del Austro.";
+    setSubmitting(false);
   });
 };
 

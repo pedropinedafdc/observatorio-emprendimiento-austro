@@ -111,27 +111,27 @@
           <form class="newsletter-form" id="newsletter-form">
             <label>
               Nombre
-              <input id="name" name="name" autocomplete="name" required placeholder="Tu nombre" />
+              <input id="newsletter-name" name="name" autocomplete="name" required placeholder="Tu nombre" />
             </label>
             <label>
               Correo
-              <input id="email" name="email" type="email" autocomplete="email" required placeholder="nombre@correo.com" />
+              <input id="newsletter-email" name="email" type="email" autocomplete="email" required placeholder="nombre@correo.com" />
             </label>
             <label>
               Institución
-              <input id="institution" name="institution" autocomplete="organization" placeholder="Universidad, empresa u organización" />
+              <input id="newsletter-institution" name="institution" autocomplete="organization" placeholder="Universidad, empresa u organización" />
             </label>
             <label>
               Interés
-              <select id="interest" name="interest">
+              <select id="newsletter-interest" name="interest">
                 <option>Eventos y convocatorias</option>
                 <option>Programas de incubación</option>
                 <option>Fondos y financiamiento</option>
                 <option>Mentorías y redes</option>
               </select>
             </label>
-            <button class="button button-primary" type="submit">Suscribirme</button>
-            <p class="form-status" id="form-status" role="status"></p>
+            <button class="button button-primary" id="newsletter-submit" type="submit">Suscribirme</button>
+            <p class="form-status" id="newsletter-message" role="status"></p>
           </form>
         </div>
       </section>
@@ -163,6 +163,8 @@
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/api/env.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
