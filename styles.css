@@ -156,6 +156,23 @@ select {
   background: var(--blue-950);
 }
 
+.event-view .hero,
+.event-view .universities,
+.event-view .kpi-section,
+.event-view .events-section,
+.event-view .news-section,
+.event-view .resources-section,
+.event-view .newsletter-section {
+  display: none;
+}
+
+.event-view .site-header {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 40px rgba(7, 26, 51, 0.1);
+  backdrop-filter: blur(18px);
+}
+
 .hero-media,
 .hero-media img,
 .hero-shade {
@@ -536,7 +553,8 @@ h3 {
 .event-detail-section {
   background: var(--white);
   display: none;
-  padding-top: clamp(110px, 11vw, 150px);
+  min-height: 100vh;
+  padding-top: clamp(112px, 11vw, 150px);
 }
 
 .event-detail-section.is-active {

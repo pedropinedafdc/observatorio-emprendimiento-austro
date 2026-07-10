@@ -233,6 +233,30 @@ const renderEventDetail = (eventId = events[0].id) => {
   `;
 };
 
+const openEventView = (eventId, updateHistory = true) => {
+  renderEventDetail(eventId);
+  const detailSection = document.getElementById("evento-detalle");
+  document.body.classList.add("event-view");
+  detailSection.hidden = false;
+  detailSection.classList.add("is-active", "is-visible");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  detailSection.querySelector(".event-detail-card").focus({ preventScroll: true });
+  if (updateHistory) {
+    history.pushState({ eventId }, "", `#evento-${eventId}`);
+  }
+};
+
+const closeEventView = (updateHistory = true) => {
+  const detailSection = document.getElementById("evento-detalle");
+  document.body.classList.remove("event-view");
+  detailSection.hidden = true;
+  detailSection.classList.remove("is-active");
+  if (updateHistory) {
+    history.pushState(null, "", "#eventos");
+  }
+  document.getElementById("eventos").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
 const renderNews = () => {
   document.getElementById("news-grid").innerHTML = news
     .map(
@@ -291,21 +315,24 @@ const bindEventLinks = () => {
   document.querySelectorAll("[data-event-link]").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      renderEventDetail(link.dataset.eventLink);
-      const detailSection = document.getElementById("evento-detalle");
-      detailSection.hidden = false;
-      detailSection.classList.add("is-active", "is-visible");
-      detailSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      detailSection.querySelector(".event-detail-card").focus({ preventScroll: true });
-      history.replaceState(null, "", `#evento-${link.dataset.eventLink}`);
+      openEventView(link.dataset.eventLink);
     });
   });
 
   document.getElementById("event-detail").addEventListener("click", (event) => {
     const backLink = event.target.closest(".back-link");
     if (!backLink) return;
-    document.getElementById("evento-detalle").hidden = true;
-    history.replaceState(null, "", "#eventos");
+    event.preventDefault();
+    closeEventView();
+  });
+
+  window.addEventListener("popstate", () => {
+    const match = window.location.hash.match(/^#evento-(.+)$/);
+    if (match) {
+      openEventView(match[1], false);
+      return;
+    }
+    closeEventView(false);
   });
 };
 
@@ -346,3 +373,8 @@ bindNavigation();
 bindEventLinks();
 bindNewsletter();
 observeSections();
+
+const initialEventMatch = window.location.hash.match(/^#evento-(.+)$/);
+if (initialEventMatch) {
+  openEventView(initialEventMatch[1], false);
+}
