@@ -78,12 +78,13 @@ select {
 
 .brand-mark {
   display: grid;
-  width: 46px;
+  width: 58px;
   height: 46px;
   place-items: center;
   color: var(--white);
   background: linear-gradient(135deg, var(--blue-600), var(--green-500));
   border-radius: 10px;
+  font-size: 0.82rem;
   font-weight: 850;
 }
 
@@ -186,11 +187,17 @@ select {
 
 .eyebrow {
   margin: 0 0 14px;
-  color: #9de8ce;
+  color: #147c64;
   font-size: 0.78rem;
   font-weight: 850;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.hero .eyebrow,
+.newsletter-section .eyebrow,
+.site-footer .eyebrow {
+  color: #9de8ce;
 }
 
 h1,
@@ -277,6 +284,7 @@ h3 {
 
 .universities,
 .events-section,
+.event-detail-section,
 .news-section,
 .resources-section,
 .newsletter-section {
@@ -461,7 +469,7 @@ h3 {
   overflow: hidden;
   background:
     linear-gradient(135deg, rgba(7, 26, 51, 0.1), rgba(40, 180, 135, 0.22)),
-    url("assets/hub-hero.png") center / cover;
+    var(--event-image, url("assets/hub-hero.png")) center / cover;
 }
 
 .card-image::after {
@@ -472,23 +480,23 @@ h3 {
 }
 
 .image-two {
-  background-position: 34% center;
+  --event-image: url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80");
 }
 
 .image-three {
-  background-position: 62% center;
+  --event-image: url("https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=1400&q=80");
 }
 
 .image-four {
-  background-position: 48% center;
+  --event-image: url("https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80");
 }
 
 .image-five {
-  background-position: 72% center;
+  --event-image: url("https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80");
 }
 
 .image-six {
-  background-position: 18% center;
+  --event-image: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80");
 }
 
 .card-image span {
@@ -523,6 +531,112 @@ h3 {
 
 .news-section {
   background: var(--white);
+}
+
+.event-detail-section {
+  background: var(--white);
+}
+
+.event-detail-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.event-detail-card {
+  display: grid;
+  gap: 24px;
+}
+
+.event-label {
+  margin: 0;
+  color: var(--green-500);
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.event-detail-card h2 {
+  max-width: 900px;
+  color: var(--blue-950);
+  font-size: clamp(2.4rem, 6vw, 5.8rem);
+}
+
+.event-poster {
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.event-poster img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+}
+
+.event-meta-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f8fbfd;
+}
+
+.event-meta-strip div {
+  min-height: 96px;
+  padding: 18px;
+  border-right: 1px solid var(--line);
+}
+
+.event-meta-strip div:last-child {
+  border-right: 0;
+}
+
+.event-meta-strip span,
+.event-side span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.event-meta-strip strong,
+.event-side strong {
+  display: block;
+  color: var(--blue-950);
+}
+
+.event-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.event-content p,
+.event-content li {
+  color: #43546a;
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.event-content ul {
+  padding-left: 20px;
+}
+
+.event-side {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+}
+
+.event-side .button {
+  margin-top: 12px;
 }
 
 .news-layout {
@@ -692,8 +806,13 @@ h3 {
   .news-layout,
   .newsletter-panel,
   .site-footer,
-  .section-kicker {
+  .section-kicker,
+  .event-content {
     grid-template-columns: 1fr;
+  }
+
+  .event-meta-strip {
+    grid-template-columns: repeat(2, 1fr);
   }
 
 }
@@ -750,8 +869,18 @@ h3 {
   .kpi-grid,
   .card-grid,
   .resource-grid,
-  .newsletter-form {
+  .newsletter-form,
+  .event-meta-strip {
     grid-template-columns: 1fr;
+  }
+
+  .event-meta-strip div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .event-meta-strip div:last-child {
+    border-bottom: 0;
   }
 
   .kpi-card,

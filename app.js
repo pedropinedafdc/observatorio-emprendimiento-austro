@@ -12,12 +12,12 @@ const universities = [
   },
   {
     shortName: "UCACUE",
-    name: "Universidad Catolica de Cuenca",
+    name: "Universidad Católica de Cuenca",
     logo: "assets/logos/ucacue.png"
   },
   {
     shortName: "UNAE",
-    name: "Universidad Nacional de Educacion",
+    name: "Universidad Nacional de Educación",
     logo: "assets/logos/unae.png"
   }
 ];
@@ -26,33 +26,78 @@ const kpis = [
   { value: "48+", label: "Eventos publicados", detail: "agenda anual del ecosistema" },
   { value: "2.400+", label: "Personas registradas", detail: "emprendedores, docentes y aliados" },
   { value: "16", label: "Programas", detail: "incubación, mentorías y formación" },
-  { value: "4", label: "Universidades", detail: "red interuniversitaria del Austro" }
+  { value: "4", label: "Universidades", detail: "red universitaria del Austro" }
 ];
 
 const events = [
   {
+    id: "foro-austro-innova",
     title: "Foro Austro Innova 2026",
     date: "18 JUL",
+    fullDate: "viernes, 18 julio 2026",
     university: "UPS",
     mode: "Presencial",
-    imageClass: "image-one",
-    summary: "Encuentro regional para conectar universidades, empresas y proyectos de alto potencial."
+    type: "Innovación",
+    city: "Cuenca",
+    place: "Campus El Vecino",
+    cost: "Entrada libre con registro",
+    image:
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1400&q=80",
+    summary: "Encuentro regional para conectar universidades, empresas y proyectos de alto potencial.",
+    detail:
+      "El HUB de Emprendimiento Universitario del Austro convoca a estudiantes, docentes, empresas y organizaciones a un espacio de articulación para conocer tendencias, retos territoriales y oportunidades de colaboración.",
+    agenda: [
+      "Panel universitario sobre innovación aplicada al territorio.",
+      "Presentación de oportunidades para emprendedores universitarios.",
+      "Networking con aliados del ecosistema productivo y social."
+    ],
+    contact: "hubemprendimiento@ups.edu.ec"
   },
   {
+    id: "bootcamp-validacion",
     title: "Bootcamp de Validación de Ideas",
     date: "25 JUL",
+    fullDate: "sábado, 25 julio 2026",
     university: "Universidad de Cuenca",
     mode: "Híbrido",
-    imageClass: "image-two",
-    summary: "Taller intensivo para transformar problemas reales en propuestas listas para validar."
+    type: "Formación",
+    city: "Cuenca",
+    place: "Auditorio universitario y transmisión en línea",
+    cost: "Sin costo",
+    image:
+      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=80",
+    summary: "Taller intensivo para transformar problemas reales en propuestas listas para validar.",
+    detail:
+      "Una jornada práctica para equipos que desean convertir una idea temprana en una propuesta de valor clara, testeable y conectada con necesidades reales de usuarios.",
+    agenda: [
+      "Identificación de problema y cliente objetivo.",
+      "Construcción de propuesta de valor.",
+      "Diseño de experimentos rápidos para validación."
+    ],
+    contact: "eventos@ucuenca.edu.ec"
   },
   {
+    id: "laboratorio-edtech",
     title: "Laboratorio EdTech y Aprendizaje",
     date: "09 AGO",
+    fullDate: "domingo, 9 agosto 2026",
     university: "UNAE",
     mode: "Virtual",
-    imageClass: "image-three",
-    summary: "Sesión para crear prototipos educativos con enfoque tecnológico y colaborativo."
+    type: "Tecnología educativa",
+    city: "Austro ecuatoriano",
+    place: "Zoom",
+    cost: "Registro abierto",
+    image:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80",
+    summary: "Sesión para crear prototipos educativos con enfoque tecnológico y colaborativo.",
+    detail:
+      "Laboratorio virtual para docentes, estudiantes e innovadores interesados en diseñar soluciones educativas con tecnología, metodologías activas y enfoque de impacto.",
+    agenda: [
+      "Inspiración con casos EdTech.",
+      "Mapa de necesidades educativas.",
+      "Prototipado de una solución mínima viable."
+    ],
+    contact: "innovacion@unae.edu.ec"
   }
 ];
 
@@ -74,7 +119,7 @@ const news = [
   {
     category: "Comunidad",
     date: "Mayo 2026",
-    title: "Mentores del Austro se suman a espacios de formacion emprendedora",
+    title: "Mentores del Austro se suman a espacios de formación emprendedora",
     imageClass: "image-six",
     summary: "Especialistas en negocio, tecnología e impacto acompañarán a equipos en etapas tempranas."
   }
@@ -126,19 +171,56 @@ const renderEvents = () => {
     .map(
       (event) => `
         <article class="feature-card reveal">
-          <div class="card-image ${event.imageClass}">
+          <div class="card-image" style="--event-image: url('${event.image}')">
             <span>${event.date}</span>
           </div>
           <div class="card-body">
             <span class="meta">${event.university} · ${event.mode}</span>
             <h3>${event.title}</h3>
             <p>${event.summary}</p>
-            <a class="card-link" href="#newsletter">Ver más</a>
+            <a class="card-link" href="#evento-detalle" data-event-link="${event.id}">Ver más</a>
           </div>
         </article>
       `
     )
     .join("");
+};
+
+const renderEventDetail = (eventId = events[0].id) => {
+  const event = events.find((item) => item.id === eventId) || events[0];
+  document.getElementById("event-detail").innerHTML = `
+    <article class="event-detail-card">
+      <p class="event-label">Evento</p>
+      <h2 id="event-detail-title">${event.title}</h2>
+      <div class="event-poster">
+        <img src="${event.image}" alt="${event.title}" loading="lazy" />
+      </div>
+      <div class="event-meta-strip" aria-label="Datos del evento">
+        <div><span>EVENTO</span><strong>${event.mode}</strong></div>
+        <div><span>TIPO</span><strong>${event.type}</strong></div>
+        <div><span>CIUDAD</span><strong>${event.city}</strong></div>
+        <div><span>FECHA</span><strong>${event.fullDate}</strong></div>
+      </div>
+      <div class="event-content">
+        <div>
+          <p>${event.detail}</p>
+          <h3>Agenda</h3>
+          <ul>
+            ${event.agenda.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+        <aside class="event-side">
+          <span>Universidad</span>
+          <strong>${event.university}</strong>
+          <span>Lugar</span>
+          <strong>${event.place}</strong>
+          <span>Costo</span>
+          <strong>${event.cost}</strong>
+          <a class="button button-primary" href="mailto:${event.contact}">Solicitar información</a>
+        </aside>
+      </div>
+    </article>
+  `;
 };
 
 const renderNews = () => {
@@ -195,6 +277,14 @@ const bindNavigation = () => {
   });
 };
 
+const bindEventLinks = () => {
+  document.querySelectorAll("[data-event-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      renderEventDetail(link.dataset.eventLink);
+    });
+  });
+};
+
 const bindNewsletter = () => {
   const form = document.getElementById("newsletter-form");
   const status = document.getElementById("form-status");
@@ -226,8 +316,10 @@ const observeSections = () => {
 renderUniversities();
 renderKpis();
 renderEvents();
+renderEventDetail();
 renderNews();
 renderResources();
 bindNavigation();
+bindEventLinks();
 bindNewsletter();
 observeSections();
