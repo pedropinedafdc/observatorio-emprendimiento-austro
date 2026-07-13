@@ -31,6 +31,31 @@ const kpis = [
 
 const events = [
   {
+    id: "reunion-hub-ups-cuenca",
+    title: "Reunión HUB UPS Cuenca",
+    date: "14 JUL",
+    fullDate: "lunes, 14 julio 2025, 10h00",
+    university: "UPS Cuenca",
+    mode: "Presencial",
+    type: "Reunión",
+    city: "Cuenca",
+    place: "Espacios de Coworking, Universidad Politécnica Salesiana",
+    locationUrl:
+      "https://www.google.com/maps/place/Universidad+Polit%C3%A9cnica+Salesiana+del+Ecuador/@-2.8855717,-78.9879118,21z/data=!4m6!3m5!1s0x91cd1826d90c7e47:0x8eb47b6b0138cb74!8m2!3d-2.8863481!4d-78.9892684!16s%2Fm%2F0cpdx8q?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D",
+    cost: "Reunión institucional",
+    image:
+      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80",
+    summary: "Encuentro de coordinación del HUB de Emprendimiento Universitario del Austro en UPS Cuenca.",
+    detail:
+      "Reunión de trabajo del HUB de Emprendimiento Universitario del Austro para coordinar acciones, agenda institucional y próximos pasos de colaboración desde la sede UPS Cuenca.",
+    agenda: [
+      "Bienvenida y contextualización del HUB universitario.",
+      "Revisión de líneas de trabajo y eventos próximos.",
+      "Coordinación de compromisos entre participantes."
+    ],
+    contact: "hubemprendimiento@ups.edu.ec"
+  },
+  {
     id: "foro-austro-innova",
     title: "Foro Austro Innova 2026",
     date: "18 JUL",
@@ -216,6 +241,7 @@ const renderEventDetail = (eventId = events[0].id) => {
           </ul>
           <p><strong>Fecha:</strong> ${event.fullDate}</p>
           <p><strong>Lugar:</strong> ${event.place}</p>
+          ${event.locationUrl ? `<p><a class="card-link" href="${event.locationUrl}" target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a></p>` : ""}
           <p><strong>Costo:</strong> ${event.cost}</p>
           <p><strong>Para más información:</strong> ${event.contact}</p>
         </div>
@@ -226,6 +252,7 @@ const renderEventDetail = (eventId = events[0].id) => {
           <strong>${event.place}</strong>
           <span>Costo</span>
           <strong>${event.cost}</strong>
+          ${event.locationUrl ? `<a class="button button-ghost event-map-button" href="${event.locationUrl}" target="_blank" rel="noopener noreferrer">Ver ubicación</a>` : ""}
           <a class="button button-primary" href="mailto:${event.contact}">Solicitar información</a>
         </aside>
       </div>
