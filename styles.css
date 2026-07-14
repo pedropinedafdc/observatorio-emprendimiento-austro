@@ -482,6 +482,7 @@ h3 {
 
 .card-image {
   position: relative;
+  display: block;
   min-height: 250px;
   overflow: hidden;
   background:
@@ -514,6 +515,17 @@ h3 {
 
 .image-six {
   --event-image: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80");
+}
+
+.image-route-program {
+  --event-image: url("assets/ruta-programa-emprendimiento.png");
+  background-size: contain;
+  background-color: var(--white);
+  background-repeat: no-repeat;
+}
+
+.image-route-program::after {
+  background: none;
 }
 
 .card-image span {

@@ -128,6 +128,14 @@ const events = [
 
 const news = [
   {
+    category: "Convocatoria UPS",
+    date: "Agosto 2026",
+    title: "Ruta del Programa Nacional de Incubación UPS 2026-2027",
+    imageClass: "image-route-program",
+    url: "assets/ruta-programa-emprendimiento.png",
+    summary: "Conoce las fases de convocatoria, bootcamp, incubación, pitch nacional y seguimiento del programa."
+  },
+  {
     category: "Ecosistema",
     date: "Julio 2026",
     title: "El Austro articula una red universitaria para impulsar emprendimientos de impacto",
@@ -289,12 +297,12 @@ const renderNews = () => {
     .map(
       (item, index) => `
         <article class="news-card ${index === 0 ? "featured" : ""} reveal">
-          <div class="card-image ${item.imageClass}"></div>
+          <a class="card-image ${item.imageClass}" href="${item.url || "#newsletter"}"${item.url ? ' target="_blank" rel="noopener noreferrer"' : ""} aria-label="${item.title}"></a>
           <div class="card-body">
             <span class="meta">${item.category} · ${item.date}</span>
             <h3>${item.title}</h3>
             <p>${item.summary}</p>
-            <a class="card-link" href="#newsletter">Leer más</a>
+            <a class="card-link" href="${item.url || "#newsletter"}"${item.url ? ' target="_blank" rel="noopener noreferrer"' : ""}>Leer más</a>
           </div>
         </article>
       `
